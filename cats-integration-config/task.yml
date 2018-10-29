@@ -1,0 +1,28 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: ronakbanka/cats-task-image
+
+inputs:
+- name: cats-concourse-task
+- name: cf-acceptance-tests
+outputs:
+- name: cats-trace-output
+
+run:
+  path: cats-concourse-task/task.sh
+
+params:
+  NODES: 2
+  CONFIG_FILE_PATH: integration_config.json
+  SKIP_REGEXP:
+  CAPTURE_LOGS: true
+  CF_API:
+  APPS_DOMAIN:
+  ADMIN_USER:
+  ADMIN_PASSWORD:
+  SKIP_SSL_VALIDATION:
+  INCLUDE_APPS:
