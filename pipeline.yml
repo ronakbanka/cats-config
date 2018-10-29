@@ -1,0 +1,34 @@
+groups:
+- name: run-cats
+  jobs:
+  - run-cats
+
+resources:
+- name: cats-concourse-task
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/ronakbanka/cats-config.git
+
+- name: cf-acceptance-tests
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/cf-acceptance-tests.git
+
+jobs:
+- name: run-cats
+  public: true
+  plan:
+    - aggregate:
+      - get: cats-concourse-task
+      - get: cf-acceptance-tests
+    - task: run-cats
+      file: cats-concourse-task/task.yml
+      params:
+        CF_API:
+        APPS_DOMAIN:
+        ADMIN_USER:
+        ADMIN_PASSWORD:
+        SKIP_SSL_VALIDATION:
+        INCLUDE_APPS:
